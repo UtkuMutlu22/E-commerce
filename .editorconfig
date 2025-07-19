@@ -1,0 +1,99 @@
+# Top-level EditorConfig file
+root = true
+
+[*.cs]
+
+#indentation
+indent_style = space
+indent_size = 4
+tab_width = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# C# special rules
+csharp_new_line_before_open_brace = all
+csharp_new_line_between_query_expression_clauses = true
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+
+# Using sorting and cleaning
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+
+#`var` usage preferences
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = false:warning
+
+# spaces
+csharp_space_after_cast = true
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_keywords_in_control_flow_statements = true
+
+# Nullability (nullable reference types)
+dotnet_enable_nullable_context = true
+dotnet_diagnostic.CS8618.severity = warning
+dotnet_diagnostic.CS8602.severity = warning
+
+# Expression-body kurallarý
+csharp_style_expression_bodied_methods = false:warning
+csharp_style_expression_bodied_properties = false:warning
+
+# Private field naming (camelCase with _ prefix)
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case.style = camel_case_with_underscore
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers =
+
+dotnet_naming_style.camel_case_with_underscore.capitalization = camel_case
+dotnet_naming_style.camel_case_with_underscore.required_prefix = _
+dotnet_naming_style.camel_case_with_underscore.required_suffix =
+
+# Async methodlar - Async ile bitmeli
+dotnet_naming_rule.async_methods_should_end_with_async.severity = warning
+dotnet_naming_rule.async_methods_should_end_with_async.symbols = async_methods
+dotnet_naming_rule.async_methods_should_end_with_async.style = end_in_async
+
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.async_methods.required_modifiers = async
+
+dotnet_naming_style.end_in_async.capitalization = pascal_case
+dotnet_naming_style.end_in_async.required_suffix = Async
+
+# StyleCop Analyzers (bazý temel kurallar örnek)
+dotnet_diagnostic.SA1101.severity = warning     # this. ile eriþim zorunluluðu
+dotnet_diagnostic.SA1309.severity = error       # private alanlar _ ile baþlamalý
+dotnet_diagnostic.SA1401.severity = error       # public field yasak (property kullan)
+dotnet_diagnostic.SA1600.severity = warning     # public üyelerde XML açýklama zorunlu
+dotnet_diagnostic.SA1633.severity = none        # dosya baþlýðý (copyright) kapalý
+dotnet_diagnostic.SA1200.severity = warning     # using'ler doðru yerde olmalý
+dotnet_diagnostic.SA1516.severity = warning     # field ve method arasýnda boþluk olmalý
+
+#Don't give unnecessary warnings about this.
+dotnet_diagnostic.IDE0003.severity = silent
+dotnet_diagnostic.IDE0009.severity = silent
+
+# Headline comments
+file_header_template = unset
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_space_around_binary_operators = before_and_after
+
+[*.{cs,vb}]
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
+end_of_line = crlf

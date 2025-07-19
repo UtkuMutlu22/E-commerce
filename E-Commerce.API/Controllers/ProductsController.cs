@@ -1,34 +1,40 @@
-﻿using E_Commerce.Application.Repository;
-using E_Commerce.Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace E_Commerce.API.Controllers
+﻿namespace E_Commerce.API.Controllers
 {
+    using E_Commerce.Application.Repository;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Handles product-related HTTP requests.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductReadRepository _productReadRepository;
         private readonly IProductWriteRepository _productWriteRepository;
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductsController"/> class with the specified product write repository.
+        /// </summary>
+        /// <param name="productWriteRepository">The repository used for writing product data to the database.</param>
+        public ProductsController(IProductWriteRepository productWriteRepository)
         {
-            _productWriteRepository = productWriteRepository;
-            _productReadRepository = productReadRepository;
+            this._productWriteRepository = productWriteRepository;
         }
 
+        /// <summary>
+        /// Adds a set of sample products to the database.
+        /// </summary>
         [HttpGet]
-        public async void Get()
+        public async void GetAsync()
         {
-            _productWriteRepository.AddRangeAsync(new List<Product>
-            {
-                new() { Name = "Product 4", Price = 400, Stock = 40,Id=Guid.NewGuid(),CreatedDate=DateTime.Now },
-                new() { Name = "Product 5", Price = 500, Stock = 50,Id=Guid.NewGuid(),CreatedDate=DateTime.Now  },
-                new() { Name = "Product 6", Price = 600, Stock = 60,Id=Guid.NewGuid(),CreatedDate=DateTime.Now  }
-            });
-            _productWriteRepository.Save();
-
+            _ = await this._productWriteRepository.AddRangeAsync(
+            [
+                new () { Name = "Product 4", Price = 400, Stock = 40, Id = Guid.NewGuid(), CreatedDate = DateTime.Now },
+                new () { Name = "Product 5", Price = 500, Stock = 50, Id = Guid.NewGuid(), CreatedDate = DateTime.Now },
+                new () { Name = "Product 6", Price = 600, Stock = 60, Id = Guid.NewGuid(), CreatedDate = DateTime.Now }
+            ]);
+            this._productWriteRepository.Save();
         }
-
     }
 }

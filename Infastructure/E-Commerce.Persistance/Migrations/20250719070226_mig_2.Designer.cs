@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace E_Commerce.Persistance.Migrations
 {
-    [DbContext(typeof(E_CommerceDbContext))]
+    [DbContext(typeof(ECommerceDbContext))]
     [Migration("20250719070226_mig_2")]
     partial class mig_2
     {

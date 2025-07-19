@@ -28,16 +28,22 @@
         /// Gets a single entity matching the specified predicate asynchronously.
         /// </summary>
         /// <param name="predicate">The filter expression.</param>
-        /// <returns>A <see cref="Task{T}"/> representing the asynchronous operation.</returns>
-        Task<T> GetSingleAsync(System.Linq.Expressions.Expression<Func<T, bool>> predicate);
+        /// <returns>
+        /// A <see cref="Task{T}"/> representing the asynchronous operation.
+        /// The result contains the entity if found; otherwise, <c>null</c>.
+        /// </returns>
+        Task<T?> GetSingleAsync(System.Linq.Expressions.Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Gets an entity by its identifier asynchronously.
         /// </summary>
         /// <param name="id">The entity identifier.</param>
         /// <param name="tracking">If true, enables change tracking.</param>
-        /// <returns>A <see cref="Task{T}"/> representing the asynchronous operation.</returns>
-        Task<T> GetByIdAsync(string id, bool tracking = false);
+        /// <returns>
+        /// A <see cref="Task{T}"/> representing the asynchronous operation.
+        /// The result contains the entity if found; otherwise, <c>null</c>.
+        /// </returns>
+        Task<T?> GetByIdAsync(string id, bool tracking = false);
 
         /// <summary>
         /// Determines asynchronously whether any entity exists with the specified identifier.

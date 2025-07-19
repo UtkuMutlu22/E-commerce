@@ -1,37 +1,124 @@
-﻿using E_Commerce.Application.Repository;
-using E_Commerce.Domain.Entities.Common;
-using E_Commerce.Persistance.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-
-namespace E_Commerce.Persistance.Concretes
+﻿namespace E_Commerce.Persistance.Concretes
 {
-    public class ReadRepository<T> : IReadReporistory<T> where T : BaseEntitiy
-    {
-        private readonly E_CommerceDbContext _context;
+    using System.Linq.Expressions;
+    using E_Commerce.Application.Repository;
+    using E_Commerce.Domain.Entities.Common;
+    using E_Commerce.Persistance.Contexts;
+    using Microsoft.EntityFrameworkCore;
 
-        public ReadRepository(E_CommerceDbContext context)
+    /// <summary>
+    /// Generic read repository implementation for accessing entities from the database.
+    /// </summary>
+    /// <typeparam name="T">Entity type that inherits from <see cref="BaseEntitiy"/>.</typeparam>
+    public class ReadRepository<T> : IReadReporistory<T>
+        where T : BaseEntitiy
+    {
+        private readonly ECommerceDbContext _context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadRepository{T}"/> class.
+        /// </summary>
+        /// <param name="context">The database context used for querying entities.</param>
+        public ReadRepository(ECommerceDbContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
-        public DbSet<T> Table => _context.Set<T>();
+        /// <summary>
+        /// Gets the database set (table) for the specified entity type.
+        /// </summary>
+        public DbSet<T> Table
+        {
+            get
+            {
+                return this._context.Set<T>();
+            }
+        }
 
+        /// <summary>
+        /// Retrieves all entities from the database.
+        /// </summary>
+        /// <param name="tracking">Specifies whether change tracking is enabled.</param>
+        /// <returns>An <see cref="IQueryable{T}"/> of all entities.</returns>
         public IQueryable<T> GetAll(bool tracking = false)
-            => Table;
+        {
+            return this.Table;
+        }
+
+        /// <summary>
+        /// Retrieves entities that match the specified condition.
+        /// </summary>
+        /// <param name="predicate">The condition to match.</param>
+        /// <returns>An <see cref="IQueryable{T}"/> of matching entities.</returns>
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate)
-            => Table.Where(predicate);
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate)
-            => await Table.FirstOrDefaultAsync(predicate);
-        public Task<T> GetByIdAsync(string id, bool tracking = false)
-             => Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
-        public Task<bool> AnyAsync(string id) 
-            => Table.AnyAsync(data => data.Id == Guid.Parse(id));
-        public Task<bool> AnyAsync(Func<T, bool> predicate) 
-            => Task.FromResult(Table.Any(predicate));
-        public Task<int> CountAsync() 
-            => Table.CountAsync();
-        public Task<int> CountAsync(Func<T, bool> predicate) 
-            => Task.FromResult(Table.Count(predicate));
+        {
+            return this.Table.Where(predicate);
+        }
+
+        /// <summary>
+        /// Asynchronously retrieves a single entity that matches the specified predicate.
+        /// </summary>
+        /// <param name="predicate">An expression to filter the entity.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the matched entity,
+        /// or <c>null</c> if no match is found.
+        /// </returns>
+        public async Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await this.Table.FirstOrDefaultAsync(predicate);
+        }
+
+        /// <summary>
+        /// Asynchronously retrieves an entity by its string representation of a <see cref="Guid"/> identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the entity as a string.</param>
+        /// <param name="tracking">If <c>true</c>, enables Entity Framework change tracking.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the entity with the specified ID,
+        /// or <c>null</c> if not found.
+        /// </returns>
+        public async Task<T?> GetByIdAsync(string id, bool tracking = false)
+        {
+            return await this.Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+        }
+
+        /// <summary>
+        /// Checks whether an entity with the specified ID exists.
+        /// </summary>
+        /// <param name="id">The ID to check.</param>
+        /// <returns>True if an entity exists; otherwise, false.</returns>
+        public Task<bool> AnyAsync(string id)
+        {
+            return this.Table.AnyAsync(data => data.Id == Guid.Parse(id));
+        }
+
+        /// <summary>
+        /// Checks whether any entity satisfies the specified condition.
+        /// </summary>
+        /// <param name="predicate">The condition to evaluate.</param>
+        /// <returns>True if any entity matches; otherwise, false.</returns>
+        public Task<bool> AnyAsync(Func<T, bool> predicate)
+        {
+            return Task.FromResult(this.Table.Any(predicate));
+        }
+
+        /// <summary>
+        /// Counts all entities in the database.
+        /// </summary>
+        /// <returns>The total count of entities.</returns>
+        public Task<int> CountAsync()
+        {
+            return this.Table.CountAsync();
+        }
+
+        /// <summary>
+        /// Counts entities that satisfy the specified condition.
+        /// </summary>
+        /// <param name="predicate">The condition to evaluate.</param>
+        /// <returns>The number of matching entities.</returns>
+        public Task<int> CountAsync(Func<T, bool> predicate)
+        {
+            return Task.FromResult(this.Table.Count(predicate));
+        }
     }
 }

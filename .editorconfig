@@ -67,7 +67,7 @@ dotnet_naming_style.end_in_async.required_suffix = Async
 
 # StyleCop Analyzers (bazý temel kurallar örnek)
 dotnet_diagnostic.SA1101.severity = warning     # this. ile eriþim zorunluluðu
-dotnet_diagnostic.SA1309.severity = error       # private alanlar _ ile baþlamalý
+dotnet_diagnostic.SA1309.severity = none# private alanlar _ ile baþlamalý
 dotnet_diagnostic.SA1401.severity = error       # public field yasak (property kullan)
 dotnet_diagnostic.SA1600.severity = warning     # public üyelerde XML açýklama zorunlu
 dotnet_diagnostic.SA1633.severity = none        # dosya baþlýðý (copyright) kapalý

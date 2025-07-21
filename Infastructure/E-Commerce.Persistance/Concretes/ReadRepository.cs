@@ -72,12 +72,11 @@
         /// Asynchronously retrieves an entity by its string representation of a <see cref="Guid"/> identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the entity as a string.</param>
-        /// <param name="tracking">If <c>true</c>, enables Entity Framework change tracking.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the entity with the specified ID,
         /// or <c>null</c> if not found.
         /// </returns>
-        public async Task<T?> GetByIdAsync(string id, bool tracking = false)
+        public async Task<T?> GetByIdAsync(string id)
         {
             return await this.Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
         }

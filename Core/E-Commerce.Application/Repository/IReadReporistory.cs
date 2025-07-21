@@ -15,24 +15,26 @@
         /// </summary>
         /// <param name="tracking">If true, enables change tracking.</param>
         /// <returns>An <see cref="IQueryable{T}"/> of all entities.</returns>
-        IQueryable<T> GetAll(bool tracking = false);
+        IQueryable<T> GetAll(bool tracking = true);
 
         /// <summary>
         /// Gets entities matching the specified predicate.
         /// </summary>
         /// <param name="predicate">The filter expression.</param>
+        /// <param name="tracking">If true, enables change tracking.</param>
         /// <returns>An <see cref="IQueryable{T}"/> of matching entities.</returns>
-        IQueryable<T> GetWhere(System.Linq.Expressions.Expression<Func<T, bool>> predicate);
+        IQueryable<T> GetWhere(System.Linq.Expressions.Expression<Func<T, bool>> predicate, bool tracking = true);
 
         /// <summary>
         /// Gets a single entity matching the specified predicate asynchronously.
         /// </summary>
         /// <param name="predicate">The filter expression.</param>
+        /// <param name="tracking">If true, enables change tracking.</param>
         /// <returns>
         /// A <see cref="Task{T}"/> representing the asynchronous operation.
         /// The result contains the entity if found; otherwise, <c>null</c>.
         /// </returns>
-        Task<T?> GetSingleAsync(System.Linq.Expressions.Expression<Func<T, bool>> predicate);
+        Task<T?> GetSingleAsync(System.Linq.Expressions.Expression<Func<T, bool>> predicate, bool tracking = true);
 
         /// <summary>
         /// Gets an entity by its identifier asynchronously.
@@ -43,7 +45,7 @@
         /// A <see cref="Task{T}"/> representing the asynchronous operation.
         /// The result contains the entity if found; otherwise, <c>null</c>.
         /// </returns>
-        Task<T?> GetByIdAsync(string id, bool tracking = false);
+        Task<T?> GetByIdAsync(string id, bool tracking = true);
 
         /// <summary>
         /// Determines asynchronously whether any entity exists with the specified identifier.

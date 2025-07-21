@@ -152,9 +152,9 @@
         /// <summary>
         /// Persists all changes made in the context to the database.
         /// </summary>
-        public void Save()
+        public async Task SaveAsync()
         {
-            this._context.SaveChanges();
+           await this._context.SaveChangesAsync();
         }
     }
 }

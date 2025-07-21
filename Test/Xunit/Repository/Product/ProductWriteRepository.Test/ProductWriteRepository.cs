@@ -137,16 +137,17 @@ namespace ProductWriteRepository.Test
         /// Tests that Save does not throw an exception.
         /// </summary>
         [Fact]
-        public void SaveShouldNotThrowException()
+        public async Task SaveShouldNotThrowException()
         {
             // Arrange
-            this._productWriteRepositoryMock.Setup(repo => repo.Save());
+            _productWriteRepositoryMock.Setup(repo => repo.SaveAsync()).Returns(Task.CompletedTask);
 
             // Act
-            Exception exception = Record.Exception(() => this._productWriteRepositoryMock.Object.Save());
+            var exception = await Record.ExceptionAsync(() => _productWriteRepositoryMock.Object.SaveAsync());
 
             // Assert
             Assert.Null(exception);
         }
+
     }
 }

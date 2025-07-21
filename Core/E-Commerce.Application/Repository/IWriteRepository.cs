@@ -53,7 +53,8 @@
 
         /// <summary>
         /// Saves changes made in the repository.
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// </summary>
-        void Save();
+        Task SaveAsync();
     }
 }

@@ -10,6 +10,11 @@
         /// <summary>
         /// Gets or sets the description of the order.
         /// </summary>
+        public Guid CustomerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description of the order.
+        /// </summary>
         public string? Description { get; set; }
 
         /// <summary>

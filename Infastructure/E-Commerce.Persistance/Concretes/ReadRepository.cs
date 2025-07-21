@@ -1,9 +1,11 @@
 ﻿namespace E_Commerce.Persistance.Concretes
 {
     using System.Linq.Expressions;
+
     using E_Commerce.Application.Repository;
     using E_Commerce.Domain.Entities.Common;
     using E_Commerce.Persistance.Contexts;
+
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -40,18 +42,35 @@
         /// </summary>
         /// <param name="tracking">Specifies whether change tracking is enabled.</param>
         /// <returns>An <see cref="IQueryable{T}"/> of all entities.</returns>
-        public IQueryable<T> GetAll(bool tracking = false)
+        public IQueryable<T> GetAll(bool tracking = true)
         {
-            return this.Table;
+            IQueryable<T> query = this.Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+                return query;
+            }
+
+            // If tracking is enabled, return the queryable with tracking
+            return query;
         }
 
         /// <summary>
         /// Retrieves entities that match the specified condition.
         /// </summary>
         /// <param name="predicate">The condition to match.</param>
+        /// <param name="tracking">Specifies whether change tracking is enabled.</param>
         /// <returns>An <see cref="IQueryable{T}"/> of matching entities.</returns>
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate, bool tracking = true)
         {
+            IQueryable<T> query = this.Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+                return query;
+            }
+
+            // If tracking is enabled, return the queryable with tracking
             return this.Table.Where(predicate);
         }
 
@@ -59,26 +78,42 @@
         /// Asynchronously retrieves a single entity that matches the specified predicate.
         /// </summary>
         /// <param name="predicate">An expression to filter the entity.</param>
+        /// <param name="tracking">Specifies whether change tracking is enabled.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the matched entity,
         /// or <c>null</c> if no match is found.
         /// </returns>
-        public async Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate)
+        public async Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate, bool tracking = true)
         {
-            return await this.Table.FirstOrDefaultAsync(predicate);
+            IQueryable<T> query = this.Table.AsQueryable();
+            if (!tracking)
+            {
+                query = this.Table.AsNoTracking();
+            }
+
+            // If tracking is enabled, return the queryable with tracking
+            return await query.FirstOrDefaultAsync(predicate);
         }
 
         /// <summary>
         /// Asynchronously retrieves an entity by its string representation of a <see cref="Guid"/> identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the entity as a string.</param>
+        /// <param name="tracking">Specifies whether change tracking is enabled.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the entity with the specified ID,
         /// or <c>null</c> if not found.
         /// </returns>
-        public async Task<T?> GetByIdAsync(string id)
+        public async Task<T?> GetByIdAsync(string id, bool tracking = true)
         {
-            return await this.Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+            IQueryable<T> query = this.Table.AsQueryable();
+            if (!tracking)
+            {
+                query = this.Table.AsNoTracking();
+            }
+
+            // If tracking is enabled, return the queryable with tracking
+            return await query.FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
         }
 
         /// <summary>

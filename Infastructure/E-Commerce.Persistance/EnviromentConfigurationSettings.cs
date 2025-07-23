@@ -11,10 +11,11 @@
     internal static class EnviromentConfigurationSettings
     {
         /// <summary>
-        /// The configuration object built from the appsettings.json file located in the application's base directory.
+        /// The configuration object built from the appsettings.json file located in the 
+        /// E-Commerce.Persistance project directory, relative to the current execution path.
         /// </summary>
         private static readonly IConfiguration _configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
+            .SetBasePath(Path.GetFullPath(@"..\..\Infastructure\E-Commerce.Persistance"))
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 

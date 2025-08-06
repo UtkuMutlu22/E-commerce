@@ -54,7 +54,8 @@
                 Stock = product.Stock,
                 Price = decimal.Parse(product.Price.ToString()),
             });
-            return this.StatusCode((int) HttpStatusCode.Created);
+            await _productWriteRepository.SaveAsync();
+            return Ok();
         }
 
         [HttpPut]

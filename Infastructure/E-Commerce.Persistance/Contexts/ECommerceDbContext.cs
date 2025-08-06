@@ -40,15 +40,22 @@
             IEnumerable<Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<BaseEntitiy>> entries = this.ChangeTracker.Entries<BaseEntitiy>();
             foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<BaseEntitiy> entity in entries)
             {
-                if (entity.State == EntityState.Added)
+                //if (entity.State == EntityState.Added)
+                //{
+                //    entity.Entity.CreatedDate = DateTime.Now;
+                //    entity.Entity.Id = Guid.NewGuid();
+                //}
+                //else if (entity.State == EntityState.Modified)
+                //{
+                //    entity.Entity.UpdateDate = DateTime.Now;
+                //}
+
+                _ = entity.State switch
                 {
-                    entity.Entity.CreatedDate = DateTime.Now;
-                    entity.Entity.Id = Guid.NewGuid();
-                }
-                else if (entity.State == EntityState.Modified)
-                {
-                    entity.Entity.UpdateDate = DateTime.Now;
-                }
+                    EntityState.Added => entity.Entity.CreatedDate = DateTime.Now,
+                    EntityState.Modified => entity.Entity.UpdateDate = DateTime.Now,
+                    _ => DateTime.Now
+                };
             }
 
             return await base.SaveChangesAsync(cancellationToken);

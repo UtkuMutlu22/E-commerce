@@ -1,0 +1,10 @@
+{
+  "CorsPolicies": {
+    "FrontendApp": {
+      "Origins": [ "https://localhost:4200", "http://localhost:4200" ]
+    },
+    "AdminApp": {
+      "Origins": [ "https://localhost:4200", "http://localhost:4200" ]
+    }
+  }
+}

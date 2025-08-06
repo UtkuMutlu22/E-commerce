@@ -1,4 +1,4 @@
-﻿namespace E_Commerce.Persistance
+﻿namespace E_Commerce.Persistance.ConfigurationSettings
 {
     using Microsoft.Extensions.Configuration;
 
@@ -8,15 +8,15 @@
     /// Provides access to environment-specific configuration settings.
     /// Reads configuration from the appsettings.json file.
     /// </summary>
-    internal static class EnviromentConfigurationSettings
+    internal static class DbConfigurationSettings
     {
         /// <summary>
         /// The configuration object built from the appsettings.json file located in the 
         /// E-Commerce.Persistance project directory, relative to the current execution path.
         /// </summary>
         private static readonly IConfiguration _configuration = new ConfigurationBuilder()
-            .SetBasePath(Path.GetFullPath(@"..\..\Infastructure\E-Commerce.Persistance"))
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .SetBasePath(Path.GetFullPath(@"..\..\Infastructure\E-Commerce.Persistance\ConfigurationFiles"))
+            .AddJsonFile("SqldbSettings.json", optional: false, reloadOnChange: true)
             .Build();
 
         /// <summary>

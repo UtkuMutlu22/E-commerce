@@ -1,4 +1,8 @@
+using E_Commerce.Infastructure;
+using E_Commerce.Infastructure.ConfigurationSettings;
 using E_Commerce.Persistance;
+
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// The main entry point for the E-Commerce API application.
@@ -17,7 +21,7 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddPersistanceServices();
-
+        builder.Services.AddInfrastructureService();
         WebApplication app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -25,6 +29,8 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors("FrontendApp");
 
         app.UseHttpsRedirection();
 

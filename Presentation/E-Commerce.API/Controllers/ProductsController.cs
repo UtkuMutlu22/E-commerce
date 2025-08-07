@@ -55,7 +55,7 @@
                 Price = decimal.Parse(product.Price.ToString()),
             });
             await _productWriteRepository.SaveAsync();
-            return Ok();
+            return Ok(product);
         }
 
         [HttpPut]

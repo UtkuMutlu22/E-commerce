@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-using E_Commerce.Application.ViewModels.Products;
-using E_Commerce.Domain.Entities;
+﻿using E_Commerce.Application.ViewModels.Products;
 
 using FluentValidation;
 

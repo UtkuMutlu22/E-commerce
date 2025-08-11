@@ -58,6 +58,24 @@
             return Ok(product);
         }
 
+        [HttpPost("AllInsert")]
+        public async Task<IActionResult> PostRange(List<Vm_CreateProduct> products)
+        {
+            foreach (Vm_CreateProduct product in products)
+            {
+                await this._productWriteRepository.AddAsync(new()
+                {
+                    Name = product.Name,
+                    Stock = product.Stock,
+                    Price = decimal.Parse(product.Price.ToString()),
+                });
+                await _productWriteRepository.SaveAsync();
+
+            }
+
+            return Ok(products);
+        }
+
         [HttpPut]
         public async Task<IActionResult> Put(Vm_UpdateProduct product)
         {
@@ -76,6 +94,18 @@
             await _productWriteRepository.RemoveAsync(id);
             _productWriteRepository.SaveAsync();
             return Ok();
+        }
+
+        [HttpPost("DeleteAll")]
+        public async Task<IActionResult> DeleteAll(List<string> id)
+        {
+            foreach (string productId in id)
+            {
+                await _productWriteRepository.RemoveAsync(productId);
+                await _productWriteRepository.SaveAsync();
+            }
+
+            return Ok(new { StatusCode = HttpStatusCode.OK, Message = "All products deleted successfully." });
         }
     }
 }
